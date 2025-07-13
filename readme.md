@@ -46,4 +46,26 @@ Implement configuration file parsing (port, route, error pages, etc.)
 Configure static routes, uploads, error pages
 
 Handle CGI execution (fork, execve)
-| ConfigParser, routes, CGI, upload, directory listing, .php |
+| ConfigParser, routes, CGI, upload, directory listing, .php
+
+
+🔧 Step 1: Core Developer builds the Minimal Server Framework
+Goal: The browser should be able to connect to the server and receive a simple response like "Hello World".
+
+Tasks:
+
+Set up the socket and main poll() loop
+
+Accept multiple client connections (even if you just reply with a fixed string)
+
+Receive incoming request data (no need to parse it yet)
+
+Send back a hardcoded HTTP response (e.g., a 200 OK with an HTML message)
+
+✅ Once this basic server is working, the HTTP and Config developers can begin their parts in parallel.
+
+🔀 Step 2: Parallel Development with Clear Interfaces
+Module	Synchronization Point
+✅ Core	After receiving request data, pass it to the RequestParser (HTTP module) and send back the resulting Response.
+✅ HTTP	Parse the raw request (method, URI, headers, body), then use the Config module to match the correct route and build a valid response.
+✅ Config	Provide lookup interfaces—e.g., given a URI, return route settings (upload path, supported methods, whether CGI is enabled, etc.).
